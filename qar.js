@@ -1,4 +1,5 @@
-class Qar {
+var livingCreature = require("./livingCreature.js");
+module.exports = class Qar extends livingCreature  {
     constructor(x, y) {
         this.x = x;
         this.y = y;

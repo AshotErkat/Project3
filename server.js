@@ -1,30 +1,40 @@
+grassArr = [];
+xotakerArr = [];
+gishatichArr = [];
+vayreniArr = [];
+qarArr = [];
+dierArr=[];
+matrix = [];
+
  var express=require("express");
  var app=express();
  var server =require("http").Server(app);
- var io=require("socket.io")(server);
+ var io =require("socket.io")(server);
 
 
- app/unescape(express.static("."));
+ app.use(express.static("."));
  app.get("/",function(req,res){
      res.redirect("index.html");
  });
  server.listen(3000);
+
+ io.on("connection",function(socket){});
  
- 
- 
- grassArr = [];
- xotakerArr = [];
- gishatichArr = [];
- vayreniArr = [];
- qarArr = [];
- dierArr=[];
+var Grass =require("./Grass.js"); 
+var Xotaker =require("./xotaker.js"); 
+var Gishatich =require("./gishatich.js"); 
+var Qar =require("./qar.js"); 
+var Vayreni =require("./vayreni.js"); 
+var Dier =require("./dier.js"); 
+
+
 
 
 function RadInt(min, max) {
     var z = Math.floor(Math.random() * (max - min + 1)) + min;
     return z;
 }
-var matrix = [];
+
 var n = 35
 var m = 35
 for (var i = 0; i <= n; ++i) {
@@ -75,7 +85,7 @@ for (var z = 0; z < tiv5; ++z) {
     var yy = RadInt(0, n);
     matrix[xx][yy] = 6;
 }
-var Grass =require("./Grass.js");
+
 
 
 function setup() {
@@ -110,11 +120,11 @@ function setup() {
 
     
 }
-setInterval(drawServerayin,1000);
+
 
 function drawServerayin() {
     for (var i in grassArr) {
-        grassArr[i].mult()
+        grassArr[i].mul()
     }
 
 
@@ -142,4 +152,8 @@ function drawServerayin() {
         dierArr[i].eat()
         dierArr[i].die()
     }
+    io.sockets.emit("matrix", matrix)
 }
+
+
+setInterval(drawServerayin,1000);

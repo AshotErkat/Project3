@@ -1,5 +1,5 @@
-
-class Dier {
+var livingCreature = require("./livingCreature.js");
+module.exports = class Dier extends livingCreature {
     constructor(x, y) {
         this.energy=1;
         this.x = x;

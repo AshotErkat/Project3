@@ -1,6 +1,5 @@
-
-
-class Gishatich {
+var livingCreature = require("./livingCreature.js");
+module.exports = class Gishatich extends livingCreature  {
     constructor(x, y) {
         this.x = x;
         this.y = y;

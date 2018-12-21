@@ -1,7 +1,5 @@
-
-
-
-class Vayreni {
+var livingCreature = require("./livingCreature.js");
+module.exports = class Vayreni extends livingCreature {
     constructor(x, y) {
         this.x = x;
         this.y = y;
@@ -48,7 +46,7 @@ class Vayreni {
 
     }
     move() {
-        var empty = random(this.chooseCell(0))
+        var newCell = array[Math.floor(Math.random()* array.length)];
         if (empty) {
             var newX = empty[0]
             var newY = empty[1]
@@ -59,7 +57,7 @@ class Vayreni {
         }
     }
     eat() {
-        var food = random(this.chooseCell(2))
+        var newCell = array[Math.floor(Math.random()* array.length)];
         if (food) {
             var newX = food[0]
             var newY = food[1]
@@ -77,7 +75,7 @@ class Vayreni {
         }
     }
     eat1() {
-        var food = random(this.chooseCell(3))
+        var newCell = array[Math.floor(Math.random()* array.length)];
         if (food) {
             var newX = food[0]
             var newY = food[1]
@@ -94,7 +92,7 @@ class Vayreni {
         }
     }
     eat2() {
-        var food = random(this.chooseCell(1))
+        var newCell = array[Math.floor(Math.random()* array.length)];
         if (food) {
             var newX = food[0]
             var newY = food[1]
@@ -111,7 +109,7 @@ class Vayreni {
         }
     }
     eatDier() {
-        var food = random(this.chooseCell(1))
+        var newCell = array[Math.floor(Math.random()* array.length)];
         if (food) {
             this.energy--;
             var newX = food[0]
