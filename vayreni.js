@@ -1,9 +1,10 @@
 var livingCreature = require("./livingCreature.js");
 module.exports = class Vayreni extends livingCreature {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.energy = 1;
+    constructor(x, y) { super(x, y);
+        this.energy = 8;
+        this.maxMulCount = 7;
+    }
+    getNewCoordinates() {
         this.directions = [
             [this.x - 1, this.y - 1],
             [this.x, this.y - 1],
@@ -13,40 +14,16 @@ module.exports = class Vayreni extends livingCreature {
             [this.x - 1, this.y + 1],
             [this.x, this.y + 1],
             [this.x + 1, this.y + 1]
-        ]
+        ];
     }
-
-    getNewDirections() {
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x, this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y],
-            [this.x + 1, this.y],
-            [this.x - 1, this.y + 1],
-            [this.x, this.y + 1],
-            [this.x + 1, this.y + 1]
-        ]
-    }
-
     chooseCell(character) {
-        this.getNewDirections()
-        var found = []
-        for (var i in this.directions) {
-            var x = this.directions[i][0]
-            var y = this.directions[i][1]
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i])
-                }
-            }
-
-        }
-        return found;
-
+        this.getNewCoordinates();
+        return super.chooseCell(character);
     }
     move() {
-        var newCell = array[Math.floor(Math.random()* array.length)];
+        var array = this.chooseCell(0);
+        var empty = array[Math.floor(Math.random() * array.length)];
+        this.energy--;
         if (empty) {
             var newX = empty[0]
             var newY = empty[1]
@@ -57,7 +34,8 @@ module.exports = class Vayreni extends livingCreature {
         }
     }
     eat() {
-        var newCell = array[Math.floor(Math.random()* array.length)];
+        var array = this.chooseCell(1);
+        var food = array[Math.floor(Math.random()* array.length)];
         if (food) {
             var newX = food[0]
             var newY = food[1]
@@ -71,11 +49,13 @@ module.exports = class Vayreni extends livingCreature {
             }
             this.x = newX
             this.y = newY
+            this.energy+=2
 
         }
     }
     eat1() {
-        var newCell = array[Math.floor(Math.random()* array.length)];
+        var array = this.chooseCell(2);
+        var food = array[Math.floor(Math.random()* array.length)];
         if (food) {
             var newX = food[0]
             var newY = food[1]
@@ -85,14 +65,17 @@ module.exports = class Vayreni extends livingCreature {
                 if (gishatichArr[i].x == newX && gishatichArr[i].y == newY) {
                     gishatichArr.splice(i, 1)
                 }
+
             }
             this.x = newX
             this.y = newY
+            this.energy+=2
 
         }
     }
     eat2() {
-        var newCell = array[Math.floor(Math.random()* array.length)];
+        var array = this.chooseCell(3);
+        var empty = array[Math.floor(Math.random()* array.length)];
         if (food) {
             var newX = food[0]
             var newY = food[1]
@@ -102,27 +85,32 @@ module.exports = class Vayreni extends livingCreature {
                 if (grassArr[i].x == newX && grassArr[i].y == newY) {
                     grassArr.splice(i, 1)
                 }
+
             }
             this.x = newX
             this.y = newY
+            this.energy+=2
 
         }
     }
     eatDier() {
-        var newCell = array[Math.floor(Math.random()* array.length)];
+        var array = this.chooseCell(4);
+        var empty = array[Math.floor(Math.random()* array.length)];
         if (food) {
-            this.energy--;
             var newX = food[0]
             var newY = food[1]
             matrix[newY][newX] = 4
             matrix[this.y][this.x] = 0
             for (var i in dierArr) {
                 if (dierArr[i].x == newX && dierArr[i].y == newY) {
-                    dierArr.splice(i, 1) 
+                    dierArr.splice(i, 1)
                 }
+
             }
             this.x = newX
             this.y = newY
+            this.energy+=2
+
         }
     }
     die() {

@@ -3,29 +3,31 @@ xotakerArr = [];
 gishatichArr = [];
 vayreniArr = [];
 qarArr = [];
-dierArr=[];
+dierArr = [];
 matrix = [];
+weather = "garun";
 
- var express=require("express");
- var app=express();
- var server =require("http").Server(app);
- var io =require("socket.io")(server);
+var express = require("express");
+var app = express();
+var server = require("http").Server(app);
+var io = require("socket.io")(server);
+var fs = require('fs');
 
 
- app.use(express.static("."));
- app.get("/",function(req,res){
-     res.redirect("index.html");
- });
- server.listen(3000);
+app.use(express.static("."));
+app.get("/", function (req, res) {
+    res.redirect("index.html");
+});
+server.listen(3000);
 
- io.on("connection",function(socket){});
- 
-var Grass =require("./Grass.js"); 
-var Xotaker =require("./xotaker.js"); 
-var Gishatich =require("./gishatich.js"); 
-var Qar =require("./qar.js"); 
-var Vayreni =require("./vayreni.js"); 
-var Dier =require("./dier.js"); 
+io.on("connection", function (socket) { });
+
+var Grass = require("./Grass.js");
+var Xotaker = require("./xotaker.js");
+var Gishatich = require("./gishatich.js");
+var Qar = require("./qar.js");
+var Vayreni = require("./vayreni.js");
+var Dier = require("./dier.js");
 
 
 
@@ -88,37 +90,34 @@ for (var z = 0; z < tiv5; ++z) {
 
 
 
-function setup() {
-    for (var y = 0; y < matrix.length; y++) {
-        for (var x = 0; x < matrix[y].length; x++) {
-            if (matrix[y][x] == 1) {
-                var gr = new Grass(x, y)
-                grassArr.push(gr)
-            }
-            else if (matrix[y][x] == 2) {
-                var xt = new Xotaker(x, y)
-                xotakerArr.push(xt)
-            }
-            else if (matrix[y][x] == 3) {
-                var gi = new Gishatich(x, y)
-                gishatichArr.push(gi)
-            }
-            else if (matrix[y][x] == 4) {
-                var va = new Vayreni(x, y)
-                vayreniArr.push(va)
-            }
-            else if (matrix[y][x] == 5) {
-                var qa = new Qar(x, y)
-                qarArr.push(qa)
-            }
-            else if (matrix[y][x] == 6) {
-                var di = new Dier(x, y)
-                dierArr.push(di)
-            }
+
+for (var y = 0; y < matrix.length; y++) {
+    for (var x = 0; x < matrix[y].length; x++) {
+        if (matrix[y][x] == 1) {
+            var gr = new Grass(x, y)
+            grassArr.push(gr)
+        }
+        else if (matrix[y][x] == 2) {
+            var xt = new Xotaker(x, y)
+            xotakerArr.push(xt)
+        }
+        else if (matrix[y][x] == 3) {
+            var gi = new Gishatich(x, y)
+            gishatichArr.push(gi)
+        }
+        else if (matrix[y][x] == 4) {
+            var va = new Vayreni(x, y)
+            vayreniArr.push(va)
+        }
+        else if (matrix[y][x] == 5) {
+            var qa = new Qar(x, y)
+            qarArr.push(qa)
+        }
+        else if (matrix[y][x] == 6) {
+            var di = new Dier(x, y)
+            dierArr.push(di)
         }
     }
-
-    
 }
 
 
@@ -137,7 +136,6 @@ function drawServerayin() {
     for (var i in gishatichArr) {
         gishatichArr[i].mult()
         gishatichArr[i].move()
-        gishatichArr[i].move1()
         gishatichArr[i].eat()
         gishatichArr[i].die()
     }
@@ -147,6 +145,7 @@ function drawServerayin() {
         vayreniArr[i].eat1()
         vayreniArr[i].eat2()
         vayreniArr[i].eatDier()
+        vayreniArr[i].die()
     }
     for (var i in dierArr) {
         dierArr[i].eat()
@@ -154,6 +153,34 @@ function drawServerayin() {
     }
     io.sockets.emit("matrix", matrix)
 }
+function changeWeather() {
+    if (weather == "garun") {
+        weather = "amar"
+    }
+    else if (weather == "amar") {
+        weather = "ashun"
+    }
+    else if (weather == "ashun") {
+        weather = "dzmer"
+    }
+    else if (weather == "dzmer") {
+        weather = "garun"
+    }
+    io.sockets.emit("exanak", weather);
+}
+
+setInterval(changeWeather, 3000);
+setInterval(drawServerayin, 200);
+setInterval(printStat, 5000);
+
+xotQanakStat = 0;
+xotakerQanakStat = 0;
+gishatichQanakStat=0;
 
 
-setInterval(drawServerayin,1000);
+var jsonObj = { "info": [] };
+function printStat() {
+    var file = "stat.json";
+    jsonObj.info.push({ "xot qanak": xotQanakStat, "xotaker qanak": xotakerQanakStat});
+    fs.writeFileSync(file, JSON.stringify(jsonObj));
+}

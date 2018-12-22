@@ -1,8 +1,10 @@
 var livingCreature = require("./livingCreature.js");
-module.exports = class Qar extends livingCreature  {
+module.exports = class Qar extends livingCreature {
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
+        this.maxMulCount = 4
+    }
+    getNewCoordinates() {
         this.directions = [
             [this.x - 1, this.y - 1],
             [this.x, this.y - 1],
@@ -14,32 +16,9 @@ module.exports = class Qar extends livingCreature  {
             [this.x + 1, this.y + 1]
         ]
     }
-
-    getNewDirections() {
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x, this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y],
-            [this.x + 1, this.y],
-            [this.x - 1, this.y + 1],
-            [this.x, this.y + 1],
-            [this.x + 1, this.y + 1]
-        ]
-    }
-
     chooseCell(character) {
-        this.getNewDirections()
-        var found = []
-        for (var i in this.directions) {
-            var x = this.directions[i][0]
-            var y = this.directions[i][1]
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i])
-                }
-            }
-        }
-        return found;
+        this.getNewCoordinates();
+        return super.chooseCell(character);
+
     }
 }

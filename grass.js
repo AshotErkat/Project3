@@ -1,9 +1,10 @@
 var livingCreature = require("./livingCreature.js");
 module.exports = class Grass extends livingCreature {
     constructor(x, y) {
-        super(x,y);
+        super(x, y);
+        this.maxMulCount = 4
     }
-       getNewCoordinates(){ 
+    getNewCoordinates() {
         this.directions = [
             [this.x - 1, this.y - 1],
             [this.x, this.y - 1],
@@ -21,11 +22,18 @@ module.exports = class Grass extends livingCreature {
 
     }
     mul() {
-        var array = this.chooseCell(0);
-        this.multiply++;
+        var array = this.chooseCell(0)
         var empty = array[Math.floor(Math.random() * array.length)];
         this.multiply++
-        if (empty) {
+
+        if (weather == "amar" || weather == "garun") {
+            this.maxMulCount = 1;
+        }
+        else {
+            this.maxMulCount = 1.5;
+        }
+        if (empty && this.multiply > this.maxMulCount && weather != "dzmer") {
+            xotQanakStat++;
             var newX = empty[0]
             var newY = empty[1]
             matrix[newY][newX] = 1
