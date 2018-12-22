@@ -75,7 +75,7 @@ module.exports = class Vayreni extends livingCreature {
     }
     eat2() {
         var array = this.chooseCell(3);
-        var empty = array[Math.floor(Math.random()* array.length)];
+        var food = array[Math.floor(Math.random()* array.length)];
         if (food) {
             var newX = food[0]
             var newY = food[1]
@@ -95,7 +95,7 @@ module.exports = class Vayreni extends livingCreature {
     }
     eatDier() {
         var array = this.chooseCell(4);
-        var empty = array[Math.floor(Math.random()* array.length)];
+        var food = array[Math.floor(Math.random()* array.length)];
         if (food) {
             var newX = food[0]
             var newY = food[1]

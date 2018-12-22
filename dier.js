@@ -23,7 +23,7 @@ module.exports = class Dier extends livingCreature {
     }
     eat() {
         var array = this.chooseCell(1);
-        var empty = array[Math.floor(Math.random()* array.length)];
+        var food = array[Math.floor(Math.random()* array.length)];
         if (food) {
             var newX = food[0]
             var newY = food[1]
